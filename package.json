@@ -1,9 +1,9 @@
 {
-  "name": "ng8-wyy",
+  "name": "ng9-wyy",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4202",
+    "start": "ng serve --port 4202 --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

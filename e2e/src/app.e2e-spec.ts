@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('ng8-wyy app is running!');
+    expect(page.getTitleText()).toEqual('ng9-wyy app is running!');
   });
 
   afterEach(async () => {

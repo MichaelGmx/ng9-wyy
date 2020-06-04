@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
       this.hotTags = hotTags;
       this.songSheetList = songSheetList;
       this.singers = singers;
-    })
+    });
   }
 
   ngOnInit(): void {

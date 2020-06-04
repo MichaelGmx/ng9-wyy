@@ -43,7 +43,7 @@ export class SongService {
     songs.forEach(song => {
       const url = urls.find(url => url.id === song.id).url;
       if (url) {
-        result.push({ ...song, url})
+        result.push({ ...song, url});
       }
     });
     return result;

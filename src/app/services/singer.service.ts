@@ -10,13 +10,13 @@ type SingerParms = {
   offset: number;
   limit: number;
   cat?: string;
-}
+};
 
 const defaultParams: SingerParms = {
   offset: 0,
   limit: 9,
   cat: '5001'
-}
+};
 
 @Injectable({
   providedIn: ServicesModule
@@ -30,7 +30,7 @@ export class SingerService {
 
   // 歌手列表
   getEnterSinger(args: SingerParms = defaultParams): Observable<Singer[]> {
-    const params = new HttpParams({ fromString: queryString.stringify(args) })
+    const params = new HttpParams({ fromString: queryString.stringify(args) });
     return this.http.get(this.uri + 'artist/list', { params })
       .pipe(map((res: {artists: Singer[]}) => res.artists));
   }
