@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, Input, Inject, ChangeDetectorRef, OnDestroy, forwardRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, Input, Inject, ChangeDetectorRef, OnDestroy, forwardRef, Output, EventEmitter } from '@angular/core';
 import { fromEvent, Observable, merge, Subscription } from 'rxjs';
 import { filter, tap, pluck, map, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { SliderEventObservableConfig, SliderValue } from './wy-slider-types';
@@ -25,6 +25,8 @@ export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccesso
   @Input() wyMin = 0;
   @Input() wyMax = 100;
   @Input() bufferOffset: SliderValue = 0;
+
+  @Output() wyOnAfrerChange = new EventEmitter<SliderValue>();
 
   private sliderDom: HTMLDivElement;
 
@@ -140,14 +142,15 @@ export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccesso
   }
 
   private onDragEnd() {
+    this.wyOnAfrerChange.emit(this.value);
     this.toggleDragMoving(false);
     this.cdr.markForCheck();
   }
 
   private setValue(value: SliderValue, needCheck = false) {
     if (needCheck) {
-      if (!this.isDragging) return;          // 是拖拽 退出
-      this.value = this.formatValue(value);  
+      if (this.isDragging) return;          // 是拖拽 退出
+      this.value = this.formatValue(value);
       this.updateTrackAndHandles();
     } else if (!this.valuesEqual(this.value, value)) {
       this.value = value;

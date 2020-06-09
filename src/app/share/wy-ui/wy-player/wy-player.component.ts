@@ -14,8 +14,8 @@ export class WyPlayerComponent implements OnInit {
   @ViewChild('audio', {static: true}) private audio: ElementRef;
   private audioEl: HTMLAudioElement;
 
-  sliderValue = 35;
-  bufferOffset = 70;
+  percent = 0;
+  bufferPercent = 0;
 
   songList: Song[];
   playList: Song[];
@@ -90,6 +90,11 @@ export class WyPlayerComponent implements OnInit {
     }
   }
 
+  onPercentChange(per) {
+    console.log('per: ', per);
+    this.audioEl.currentTime = this.duration * (per / 100);
+  }
+
   // 播放/暂停
   onToggle() {
     if (!this.currentSong) {
@@ -149,6 +154,11 @@ export class WyPlayerComponent implements OnInit {
 
   onTimeUpdate(e: Event) {
     this.currentTime = (<HTMLAudioElement>e.target).currentTime;
+    this.percent = (this.currentTime / this.duration) * 100;
+    const buffered = this.audioEl.buffered;
+    if (buffered.length && this.bufferPercent < 100) {
+      this.bufferPercent = (buffered.end(0) / this.duration) * 100;
+    }
   }
 
   private play() {
