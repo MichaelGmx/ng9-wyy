@@ -6,9 +6,9 @@ import { NzCarouselComponent } from 'ng-zorro-antd';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { SheetService } from 'src/app/services/sheet.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppStoreModule } from 'src/app/store';
-import { SetSongList, SetPlayList, SetCurrentIndex } from 'src/app/store/actions/player.action';
+import { BatchActionsService } from 'src/app/store/batch-actions.service';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     // private singerService: SingerService,
     private route: ActivatedRoute,
     private sheetService: SheetService,
-    private store$: Store<AppStoreModule>
+    private batchActionService: BatchActionsService
   ) {
     // this.getBanners();
     // this.getHotTags();
@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit {
       this.songSheetList = songSheetList;
       this.singers = singers;
     });
+
+    
   }
 
   ngOnInit(): void {
@@ -55,11 +57,8 @@ export class HomeComponent implements OnInit {
   }
 
   onPlaySheet(id: number) {
-    console.log('id: ', id);
     this.sheetService.playSheet(id).subscribe(list => {
-      this.store$.dispatch(SetSongList({ songList: list.slice(0, 3) }));
-      this.store$.dispatch(SetPlayList({ playList: list.slice(0, 3) }));
-      this.store$.dispatch(SetCurrentIndex({ currentIndex: 0 }));
+      this.batchActionService.selectPlayList({ list, index: 0 });
     });
   }
 

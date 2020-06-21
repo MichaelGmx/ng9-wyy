@@ -44,3 +44,9 @@ export type SongSheet = {
   picUrl: string;
   tracks: Song[];
 };
+
+// 歌词
+export type Lyric = {
+  lyric: string;
+  tlyric: string;
+}
